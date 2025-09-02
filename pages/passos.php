@@ -1,23 +1,28 @@
 <?php
 //ENTRADAS//
 $resultadoContagem = "";
-$valorInicial = $_GET["valorinicial"];
-$valorFinal = $_GET["valorfinal"];
-$passos = $_GET["passos"];
+$valorInicial = filter_input(INPUT_GET,"valorinicial", FILTER_VALIDATE_INT);
+$valorFinal = filter_input(INPUT_GET,"valorfinal", FILTER_VALIDATE_INT);
+$passos = filter_input(INPUT_GET,"passos", FILTER_VALIDATE_INT);
 
 //PROCESSAMENTO//
-for ($contador = $valorInicial; $contador <= $valorFinal; $contador += $passos) {
+if ($valorInicial==false|| $valorFinal==false || $passos==false) {
+    $resultadoContagem = "ERRO! Valores Inválidos.";
+} else if ($valorInicial < $valorFinal && $passos < $valorFinal) {
+    for ($contador = $valorInicial; $contador <= $valorFinal; $contador += $passos) {
     
     
-    if ($contador == $valorInicial) {
+     if ($contador == $valorInicial) {
         $resultadoContagem .= "<li> $valorInicial - INÍCIO </li>";
-    } elseif ($contador + $passos > $valorFinal) {
+     } else if ($contador + $passos > $valorFinal) {
         $resultadoContagem .= "<li> $valorFinal - FIM </li>";
-    } else {
+     } else {
         $resultadoContagem .= "<li> $contador </li>";
-    }
+     }
 
-
+  }
+  } else {
+$resultadoContagem = "ERRO! Valores Inválidos.";
 }
 ?>
 
@@ -34,8 +39,9 @@ for ($contador = $valorInicial; $contador <= $valorFinal; $contador += $passos) 
     <ul>
 <?php 
 //SAÍDA//
-echo $resultadoContagem; 
+echo $resultadoContagem;
 ?>
     </ul>
+    <a href="../index.html">Voltar</a>
 </body>
 </html>
